@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRConsole", "GRConsole\GRConsole.csproj", "{F9E03D85-41D2-46D9-BF0F-8F8F6B9E26A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRLibrary", "GRLibrary\GRLibrary.csproj", "{E04E79E1-684A-429B-8BD8-039E0DD5A0BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRUnitTest", "GRUnitTest\GRUnitTest.csproj", "{7ABC5BFA-8B47-4AEE-BD86-CBCC8483EA37}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9E03D85-41D2-46D9-BF0F-8F8F6B9E26A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E03D85-41D2-46D9-BF0F-8F8F6B9E26A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E03D85-41D2-46D9-BF0F-8F8F6B9E26A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E03D85-41D2-46D9-BF0F-8F8F6B9E26A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E04E79E1-684A-429B-8BD8-039E0DD5A0BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E04E79E1-684A-429B-8BD8-039E0DD5A0BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E04E79E1-684A-429B-8BD8-039E0DD5A0BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E04E79E1-684A-429B-8BD8-039E0DD5A0BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ABC5BFA-8B47-4AEE-BD86-CBCC8483EA37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ABC5BFA-8B47-4AEE-BD86-CBCC8483EA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ABC5BFA-8B47-4AEE-BD86-CBCC8483EA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ABC5BFA-8B47-4AEE-BD86-CBCC8483EA37}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89F58269-EB86-4749-BF49-97B5B14F2EC1}
+	EndGlobalSection
+EndGlobal
