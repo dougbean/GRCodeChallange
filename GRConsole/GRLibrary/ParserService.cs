@@ -45,7 +45,7 @@ namespace GRLibrary
             return result;
         }
 
-        public IList<Person> ReadFile(string fileName)
+        public IList<Person> GetPersons(string fileName)
         {
             List<Person> persons = new List<Person>();
             try
@@ -54,7 +54,7 @@ namespace GRLibrary
 
                 KeyValuePair<FileFormatEnum, char> kvp = GetDilimiter(fileFormat);
 
-                persons = ReadFile(fileName, kvp.Value);
+                persons = GetPersons(fileName, kvp.Value);
             }
             catch(Exception e)
             {
@@ -70,7 +70,7 @@ namespace GRLibrary
                     select d).FirstOrDefault();
         }
                 
-        private List<Person> ReadFile(string path, char delimiter)
+        private List<Person> GetPersons(string path, char delimiter)
         {
             var persons = new List<Person>();
 
@@ -78,16 +78,21 @@ namespace GRLibrary
             using (StreamReader)
             {
                 StreamReader.InitializeReader(path);
-               
-                while ((line = StreamReader.ReadLine()) != null)
-                {                   
-                    string[] parsedRecord = line.Split(delimiter);
-                    Person person = GetPerson(parsedRecord);
-                    persons.Add(person);
-                }
+                ReadLines(delimiter, persons);
             }
 
             return persons;
+        }
+
+        private void ReadLines(char delimiter, List<Person> persons)
+        {
+            string line;
+            while ((line = StreamReader.ReadLine()) != null)
+            {
+                string[] parsedRecord = line.Split(delimiter);
+                Person person = GetPerson(parsedRecord);
+                persons.Add(person);
+            }
         }
 
         private static Person GetPerson(string[] parsedRecord)

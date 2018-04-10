@@ -6,6 +6,6 @@ namespace GRLibrary
     public interface IParser
     {
         FileFormatEnum GetFileFormat(string fileName);
-        IList<Person> ReadFile(string fullFileName); 
+        IList<Person> GetPersons(string fullFileName); 
     }
 }

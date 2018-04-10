@@ -86,7 +86,7 @@ namespace GRUnitTest
             _parserService.StreamReader = mockStreamReader.Object;
 
             //act
-            IList<Person> persons = _parserService.ReadFile(fileName);
+            IList<Person> persons = _parserService.GetPersons(fileName);
             var person = persons.FirstOrDefault();
 
             //assert
@@ -122,7 +122,7 @@ namespace GRUnitTest
             _parserService.StreamReader = mockStreamReader.Object;
 
             //act
-            IList<Person> persons = _parserService.ReadFile(fileName);
+            IList<Person> persons = _parserService.GetPersons(fileName);
             var person = persons.FirstOrDefault();
 
             //assert            
@@ -148,12 +148,37 @@ namespace GRUnitTest
             _parserService.StreamReader = mockStreamReader.Object;
 
             //act
-            IList<Person> persons = _parserService.ReadFile(fileName);
+            IList<Person> persons = _parserService.GetPersons(fileName);
             var person = persons.FirstOrDefault();
 
             //assert
             string expected = "Veregan";
             Assert.AreEqual(expected, person.LastName);
+        }
+                
+        [TestMethod]
+        public void PersonListCountShouldMatchLineNumberCount()
+        {
+            //arrange
+            //the "pipe" string in the file name tells the parser to use a pipe delimiter
+            string fileName = @"C:\gtr\gtr-pipe.txt";
+
+            string line = "Veregan|Jsandye|Female|Khaki|1/27/2007";
+            string line2 = "Ruperto|Billie|Female|Teal|7/24/1962";
+
+            var mockStreamReader = new Mock<IStreamReader>();
+            mockStreamReader.Setup(s => s.ReadLine())
+                 .Returns(new Queue<string>(new[] { line, line2, null }).Dequeue);
+
+            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
+            _parserService.StreamReader = mockStreamReader.Object;
+
+            //act
+            IList<Person> persons = _parserService.GetPersons(fileName);
+
+            //assert
+            int expected = 2;
+            Assert.AreEqual(expected, persons.Count());
         }
 
         [TestMethod]
@@ -171,7 +196,7 @@ namespace GRUnitTest
             _parserService.StreamReader = mockStreamReader.Object;
 
             //act
-            IList<Person> persons = _parserService.ReadFile(fileName);
+            IList<Person> persons = _parserService.GetPersons(fileName);
             var person = persons.FirstOrDefault();
 
             //assert

@@ -29,7 +29,7 @@ namespace GRConsole
             IParser parserService = new ParserService(typeGetters, delimiters);
             string fileName = @"C:\gtr\gtr-comma.txt";
 
-            IList<Person> persons = parserService.ReadFile(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
             foreach (var person in persons)
             {
                 Console.WriteLine("{0} {1} {2} {3} {4}",
