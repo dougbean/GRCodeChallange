@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using GRLibrary;
+using GRLibrary.Model;
 
 namespace GRConsole
 {
@@ -28,7 +29,47 @@ namespace GRConsole
             IParser parserService = new ParserService(typeGetters, delimiters);
             string fileName = @"C:\gtr\gtr-comma.txt";
 
-            parserService.ReadFile(fileName);
+            IList<Person> persons = parserService.ReadFile(fileName);
+            foreach (var person in persons)
+            {
+                Console.WriteLine("{0} {1} {2} {3} {4}",
+                    person.FirstName,
+                    person.LastName,
+                    person.Gender,
+                    person.FavoriteColor,
+                    person.DateOfBirth.ToString("d"));
+            }
+
+            Console.WriteLine("sorted by first name...");
+
+            var query = (from p in persons
+                         orderby p.FirstName
+                         select p);
+            foreach (var item in query)
+            {
+                Console.WriteLine("{0} {1} {2} {3} {4}",
+                   item.FirstName,
+                   item.LastName,
+                   item.Gender,
+                   item.FavoriteColor,
+                   item.DateOfBirth.ToString("d"));
+            }
+
+            Console.WriteLine("sorted by date of birth...");
+
+            var byDateOfBirthQuery = (from p in persons
+                                      orderby p.DateOfBirth
+                                      select p);
+
+            foreach (var item in byDateOfBirthQuery)
+            {
+                Console.WriteLine("{0} {1} {2} {3} {4}",
+                   item.FirstName,
+                   item.LastName,
+                   item.Gender,
+                   item.FavoriteColor,
+                   item.DateOfBirth.ToString("d"));
+            }
 
             Console.WriteLine("press any key.");
             Console.ReadKey();

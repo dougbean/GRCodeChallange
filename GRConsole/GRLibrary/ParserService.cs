@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GRLibrary.Model;
 
 namespace GRLibrary
-{
+{    
     public class ParserService : IParser
     {
         private List<FileFormatGetter> _formatGetters;
@@ -14,7 +15,23 @@ namespace GRLibrary
             _delimiters = delimiters;
         }
 
-        public FileFormatEnum GetFileFormat(string fileName) //should this be a private method used internally?
+        private IStreamReader _streamReader;
+        public IStreamReader StreamReader {
+           get 
+            {
+                if(_streamReader == null)
+                {
+                    _streamReader = new StreamReaderWrapper();
+                }
+                return _streamReader;
+            }
+            set
+            {
+                _streamReader = value; 
+            }
+        }
+       
+        public FileFormatEnum GetFileFormat(string fileName) 
         {
             var result = new FileFormatEnum();
             foreach (var getter in _formatGetters)
@@ -28,13 +45,22 @@ namespace GRLibrary
             return result;
         }
 
-        public void ReadFile(string fileName)
+        public IList<Person> ReadFile(string fileName)
         {
-            FileFormatEnum fileFormat = GetFileFormat(fileName);
+            List<Person> persons = new List<Person>();
+            try
+            {
+                FileFormatEnum fileFormat = GetFileFormat(fileName);
 
-            KeyValuePair<FileFormatEnum, char> kvp = GetDilimiter(fileFormat);
+                KeyValuePair<FileFormatEnum, char> kvp = GetDilimiter(fileFormat);
 
-            ReadFile(fileName, kvp.Value);
+                persons = ReadFile(fileName, kvp.Value);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }            
+            return persons;           
         }
 
         private KeyValuePair<FileFormatEnum, char> GetDilimiter(FileFormatEnum fileFormat)
@@ -43,38 +69,44 @@ namespace GRLibrary
                     where d.Key == fileFormat
                     select d).FirstOrDefault();
         }
-
-        private void ReadFile(string fileName, char delimiter)
+                
+        private List<Person> ReadFile(string path, char delimiter)
         {
-            try
+            var persons = new List<Person>();
+
+            string line;
+            using (StreamReader)
             {
-                string line;
-                //I can also pass in a stream to the StreamReaderWrapper
-                using (IStreamReader streamReader = new StreamReaderWrapper(fileName))
+                StreamReader.InitializeReader(path);
+               
+                while ((line = StreamReader.ReadLine()) != null)
                 {                   
-                    while (true)
-                    {
-                        line = streamReader.ReadLine();
-                        if (line != null)
-                        {
-                            //Console.WriteLine(line);
-                            string[] parsedRecord = line.Split(delimiter);
-                            foreach (var field in parsedRecord)
-                            {
-                                Console.WriteLine(field.Trim());
-                            }
-                        }
-                        else
-                        {
-                            break;
-                        }                       
-                    }
-                }               
+                    string[] parsedRecord = line.Split(delimiter);
+                    Person person = GetPerson(parsedRecord);
+                    persons.Add(person);
+                }
             }
-            catch (Exception exception)
+
+            return persons;
+        }
+
+        private static Person GetPerson(string[] parsedRecord)
+        {
+            var person = new Person()
             {
-                Console.WriteLine(exception.Message);
+                LastName = parsedRecord[0],
+                FirstName = parsedRecord[1],                
+                Gender = parsedRecord[2],
+                FavoriteColor = parsedRecord[3],
+            };
+
+            DateTime result;
+            bool success = DateTime.TryParse(parsedRecord[4], out result);
+            if (success)
+            {
+                person.DateOfBirth = result;
             }
+            return person;
         }
     }
 }

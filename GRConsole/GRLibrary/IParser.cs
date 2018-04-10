@@ -1,9 +1,11 @@
-﻿
+﻿using System.Collections.Generic;
+using GRLibrary.Model;
+
 namespace GRLibrary
 {
     public interface IParser
     {
         FileFormatEnum GetFileFormat(string fileName);
-        void ReadFile(string fullFileName); 
+        IList<Person> ReadFile(string fullFileName); 
     }
 }

@@ -8,16 +8,21 @@ namespace GRLibrary
         private StreamReader _streamReader;
 
         //04092018//
-        public StreamReaderWrapper(string path)
-        {
-            _streamReader = new StreamReader(path);
-        }
+        //public StreamReaderWrapper(string path)
+        //{
+        //    _streamReader = new StreamReader(path);
+        //}
         //04092018//
 
         //public void InitializeReader(Stream stream) //todo: Remove this?
         //{
         //    _streamReader = new StreamReader(stream);
         //}
+
+        public void InitializeReader(string path) //todo: Remove this?
+        {
+            _streamReader = new StreamReader(path);
+        }
 
         public string ReadLine()
         {

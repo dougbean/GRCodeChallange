@@ -6,7 +6,7 @@ namespace GRLibrary
     public interface IStreamReader : IDisposable
     {
         string ReadLine();
-        //void InitializeReader(Stream stream);
-        StreamReader Reader { get; }
+        void InitializeReader(string path);
+        StreamReader Reader { get; } //do I need this method?
     }
 }
