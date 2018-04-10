@@ -33,42 +33,55 @@ namespace GRConsole
             foreach (var person in persons)
             {
                 Console.WriteLine("{0} {1} {2} {3} {4}",
-                    person.FirstName,
                     person.LastName,
+                    person.FirstName,                   
                     person.Gender,
                     person.FavoriteColor,
                     person.DateOfBirth.ToString("d"));
             }
 
-            Console.WriteLine("sorted by first name...");
+            //Console.WriteLine("sorted by first name...");
 
-            var query = (from p in persons
-                         orderby p.FirstName
-                         select p);
-            foreach (var item in query)
+            //var query = (from p in persons
+            //             orderby p.FirstName
+            //             select p);
+            //foreach (var item in query)
+            //{
+            //    Console.WriteLine("{0} {1} {2} {3} {4}",
+            //       item.FirstName,
+            //       item.LastName,
+            //       item.Gender,
+            //       item.FavoriteColor,
+            //       item.DateOfBirth.ToString("d"));
+            //}
+
+            //Console.WriteLine("sorted by date of birth...");
+
+            //var byDateOfBirthQuery = (from p in persons
+            //                          orderby p.DateOfBirth
+            //                          select p);
+
+            //foreach (var item in byDateOfBirthQuery)
+            //{
+            //    Console.WriteLine("{0} {1} {2} {3} {4}",
+            //       item.FirstName,
+            //       item.LastName,
+            //       item.Gender,
+            //       item.FavoriteColor,
+            //       item.DateOfBirth.ToString("d"));
+            //}
+
+            ISortService sortService = new SortService();
+            var sortedByGender = sortService.SortByGenderAndLastNameAscending(persons);
+            Console.WriteLine("SortService..sortedByGender...");
+            foreach (var item in sortedByGender)
             {
                 Console.WriteLine("{0} {1} {2} {3} {4}",
-                   item.FirstName,
-                   item.LastName,
-                   item.Gender,
-                   item.FavoriteColor,
-                   item.DateOfBirth.ToString("d"));
-            }
-
-            Console.WriteLine("sorted by date of birth...");
-
-            var byDateOfBirthQuery = (from p in persons
-                                      orderby p.DateOfBirth
-                                      select p);
-
-            foreach (var item in byDateOfBirthQuery)
-            {
-                Console.WriteLine("{0} {1} {2} {3} {4}",
-                   item.FirstName,
-                   item.LastName,
-                   item.Gender,
-                   item.FavoriteColor,
-                   item.DateOfBirth.ToString("d"));
+                    item.LastName,
+                    item.FirstName,
+                    item.Gender,
+                    item.FavoriteColor,
+                    item.DateOfBirth.ToString("d"));
             }
 
             Console.WriteLine("press any key.");
