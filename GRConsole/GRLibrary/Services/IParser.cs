@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GRLibrary.Model;
 
-namespace GRLibrary
+namespace GRLibrary.Services
 {
     public interface IParser
     {

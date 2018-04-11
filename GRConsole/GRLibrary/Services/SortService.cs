@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GRLibrary.Model;
 
-namespace GRLibrary
+namespace GRLibrary.Services
 {
     public class SortService : ISortService
     {

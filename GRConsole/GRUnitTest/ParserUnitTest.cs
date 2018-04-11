@@ -5,6 +5,8 @@ using System;
 using System.Text;
 using GRLibrary;
 using GRLibrary.Model;
+using GRLibrary.Services;
+using GRLibrary.Wrappers;
 using Moq;
 
 namespace GRUnitTest

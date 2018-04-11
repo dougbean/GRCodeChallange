@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System;
 
-namespace GRLibrary
+namespace GRLibrary.Wrappers
 {
     public class StreamReaderWrapper : IStreamReader, IDisposable 
     {   
