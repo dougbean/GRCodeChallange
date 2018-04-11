@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using GRLibrary;
 using GRLibrary.Model;
 
@@ -9,72 +7,87 @@ namespace GRConsole
 {
     class Program
     {
-       static void Main(string[] args)
+        private static IParser _parserService;
+        private static ISortService _sortService; 
+
+        static void Main(string[] args)
         {
-            //string[] myArgs = new string[1];
-            //myArgs[0] = @"C:\gtr";
-            //ReadDirectory(myArgs);
+            InitializeServices();
 
-            //_parserService.ReadFile()
+            while (true)
+            {
+                Parse(_parserService, _sortService);
+            }
+        }
 
-            List<FileFormatGetter> typeGetters = new List<FileFormatGetter>()
+        private static void InitializeServices()
+        {
+            List<FileFormatGetter> formatGetters = GetFormatGetters();
+            Dictionary<FileFormatEnum, char> delimiters = GetDelimiters();
+            _parserService = new ParserService(formatGetters, delimiters);
+            _sortService = new SortService();
+        }
+
+        private static List<FileFormatGetter> GetFormatGetters()
+        {
+            return new List<FileFormatGetter>()
                   { new CommaFormatGetter(), new PipeFormatGetter(), new SpaceFormatGetter() };
+        }
 
+        private static Dictionary<FileFormatEnum, char> GetDelimiters()
+        {
             Dictionary<FileFormatEnum, char> delimiters = new Dictionary<FileFormatEnum, char>();
 
             delimiters.Add(FileFormatEnum.comma, ',');
             delimiters.Add(FileFormatEnum.pipe, '|');
             delimiters.Add(FileFormatEnum.space, ' ');
+            return delimiters;
+        }
 
-            IParser parserService = new ParserService(typeGetters, delimiters);
-            string fileName = @"C:\gtr\gtr-comma.txt";
+        private static void Parse(IParser _parserService, ISortService sortService)
+        {
+            Console.WriteLine("Enter file and path with file format specified as part of the name, " +
+                           "such as 'comma', 'pipe' or 'space':");
 
-            IList<Person> persons = parserService.GetPersons(fileName);
-            foreach (var person in persons)
-            {
-                Console.WriteLine("{0} {1} {2} {3} {4}",
-                    person.LastName,
-                    person.FirstName,                   
-                    person.Gender,
-                    person.FavoriteColor,
-                    person.DateOfBirth.ToString("d"));
-            }
+            string input = Console.ReadLine();
+            IList<Person> unsortedList = _parserService.GetPersons(input);
+            Sort(sortService, unsortedList);
+        }
 
-            //Console.WriteLine("sorted by first name...");
+        private static void Sort(ISortService sortService, IList<Person> unsortedList)
+        {
+            SortByGenderAndLastNameAscending(sortService, unsortedList);
+            SortByBirthDateAscending(sortService, unsortedList);
+            SortByLastNameDescending(sortService, unsortedList);
+        }
 
-            //var query = (from p in persons
-            //             orderby p.FirstName
-            //             select p);
-            //foreach (var item in query)
-            //{
-            //    Console.WriteLine("{0} {1} {2} {3} {4}",
-            //       item.FirstName,
-            //       item.LastName,
-            //       item.Gender,
-            //       item.FavoriteColor,
-            //       item.DateOfBirth.ToString("d"));
-            //}
+        private static void SortByLastNameDescending(ISortService sortService, IList<Person> unsortedList)
+        {
+            IList<Person> sortedBylastName = sortService.SortByLastNameDescending(unsortedList);
+            Console.WriteLine(" ");
+            Console.WriteLine("Sorted by last name descending.");
+            PrintList(sortedBylastName);
+        }
 
-            //Console.WriteLine("sorted by date of birth...");
+        private static void SortByBirthDateAscending(ISortService sortService, IList<Person> unsortedList)
+        {
+            IList<Person> sortedByBirthdate = sortService.SortByBirthDateAscending(unsortedList);
+            Console.WriteLine(" ");
+            Console.WriteLine("Sorted by date of birth ascending.");
+            PrintList(sortedByBirthdate);
+        }
 
-            //var byDateOfBirthQuery = (from p in persons
-            //                          orderby p.DateOfBirth
-            //                          select p);
+        private static void SortByGenderAndLastNameAscending(ISortService sortService, IList<Person> unsortedList)
+        {
+            IList<Person> sortedByGender = sortService.SortByGenderAndLastNameAscending(unsortedList);
+            Console.WriteLine(" ");
+            Console.WriteLine("Sorted by gender and by last name ascending.");
+            PrintList(sortedByGender);
+        }       
 
-            //foreach (var item in byDateOfBirthQuery)
-            //{
-            //    Console.WriteLine("{0} {1} {2} {3} {4}",
-            //       item.FirstName,
-            //       item.LastName,
-            //       item.Gender,
-            //       item.FavoriteColor,
-            //       item.DateOfBirth.ToString("d"));
-            //}
-
-            ISortService sortService = new SortService();
-            var sortedByGender = sortService.SortByGenderAndLastNameAscending(persons);
-            Console.WriteLine("SortService..sortedByGender...");
-            foreach (var item in sortedByGender)
+        private static void PrintList(IList<Person> persons)
+        {
+            foreach (var item in persons)
             {
                 Console.WriteLine("{0} {1} {2} {3} {4}",
                     item.LastName,
@@ -82,19 +95,6 @@ namespace GRConsole
                     item.Gender,
                     item.FavoriteColor,
                     item.DateOfBirth.ToString("d"));
-            }
-
-            Console.WriteLine("press any key.");
-            Console.ReadKey();
-        }
-
-        private static void ReadDirectory(string[] args)
-        {
-            string path = args[0];
-            var files = Directory.GetFiles(path);
-            foreach (var file in files)
-            {
-                Console.WriteLine(file);                
             }
         }
     }
