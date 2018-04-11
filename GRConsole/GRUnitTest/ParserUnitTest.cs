@@ -17,16 +17,27 @@ namespace GRUnitTest
         [TestInitialize]
         public void Initialize()
         {
-            List<FileFormatGetter> typeGetters = new List<FileFormatGetter>()
-                  { new CommaFormatGetter(), new PipeFormatGetter(), new SpaceFormatGetter() };
+            List<FileFormatGetter> formatGetters = GetFormatGetters();
 
+            Dictionary<FileFormatEnum, char> delimiters = GetDelimiters();
+
+            _parserService = new ParserService(formatGetters, delimiters);
+        }
+
+        private static List<FileFormatGetter> GetFormatGetters()
+        {
+            return new List<FileFormatGetter>()
+                  { new CommaFormatGetter(), new PipeFormatGetter(), new SpaceFormatGetter() };
+        }
+
+        private static Dictionary<FileFormatEnum, char> GetDelimiters()
+        {
             Dictionary<FileFormatEnum, char> delimiters = new Dictionary<FileFormatEnum, char>();
 
             delimiters.Add(FileFormatEnum.comma, ',');
             delimiters.Add(FileFormatEnum.pipe, '|');
             delimiters.Add(FileFormatEnum.space, ' ');
-
-            _parserService = new ParserService(typeGetters, delimiters);
+            return delimiters;
         }
 
         [TestMethod]
@@ -91,7 +102,8 @@ namespace GRUnitTest
 
             //assert
             string expected = "Gibbe";           
-            Assert.AreEqual(expected, person.LastName);           
+            Assert.AreEqual(expected, person.LastName);
+            mockStreamReader.VerifyAll();
         }
 
         [TestMethod]
@@ -131,6 +143,7 @@ namespace GRUnitTest
             Assert.AreEqual(gender, person.Gender);
             Assert.AreEqual(favoriteColor, person.FavoriteColor);
             Assert.AreEqual(dateOfBirth, person.DateOfBirth);
+            mockStreamReader.VerifyAll();
         }
 
         [TestMethod]
@@ -179,6 +192,7 @@ namespace GRUnitTest
             //assert
             int expected = 2;
             Assert.AreEqual(expected, persons.Count());
+            mockStreamReader.VerifyAll();
         }
 
         [TestMethod]
@@ -202,6 +216,57 @@ namespace GRUnitTest
             //assert
             string expected = "Rout";
             Assert.AreEqual(expected, person.LastName);
+            mockStreamReader.VerifyAll();
+        }
+                
+        [ExpectedException(typeof(FormatGetterException))]
+        [TestMethod]        
+        public void FileFormatGettersShouldBePresentForParserService()
+        {
+            //arrange
+            //the "space" string in the file name tells the parser to use a space delimiter
+            string fileName = @"C:\gtr\gtr-space.txt";
+
+            List<FileFormatGetter> formatGetters = null;
+
+            Dictionary<FileFormatEnum, char> delimiters = GetDelimiters();
+
+            var parserService = new ParserService(formatGetters, delimiters);
+
+            var mockStreamReader = new Mock<IStreamReader>();
+            mockStreamReader.Setup(s => s.ReadLine())
+                 .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
+
+            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
+            _parserService.StreamReader = mockStreamReader.Object;
+
+            //act
+            IList<Person> persons = parserService.GetPersons(fileName);       
+        }
+
+        [ExpectedException(typeof(DelimitersException))]
+        [TestMethod]
+        public void DelimitersShouldBePresentForParserService()
+        {
+            //arrange
+            //the "space" string in the file name tells the parser to use a space delimiter
+            string fileName = @"C:\gtr\gtr-space.txt";
+           
+            List<FileFormatGetter> formatGetters = GetFormatGetters();
+
+            Dictionary<FileFormatEnum, char> delimiters = null;
+
+            var parserService = new ParserService(formatGetters, delimiters);
+
+            var mockStreamReader = new Mock<IStreamReader>();
+            mockStreamReader.Setup(s => s.ReadLine())
+                 .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
+
+            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
+            _parserService.StreamReader = mockStreamReader.Object;
+
+            //act
+            IList<Person> persons = parserService.GetPersons(fileName);
         }
     }
 }

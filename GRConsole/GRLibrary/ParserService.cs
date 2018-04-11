@@ -33,6 +33,11 @@ namespace GRLibrary
        
         public FileFormatEnum GetFileFormat(string fileName) 
         {
+            if (AreFormatGettersMissing())
+            {
+                throw new FormatGetterException("FileFormatGetters are missing.");
+            }
+
             var result = new FileFormatEnum();
             foreach (var getter in _formatGetters)
             {
@@ -44,6 +49,11 @@ namespace GRLibrary
             }
             return result;
         }
+
+        private bool AreFormatGettersMissing()
+        {
+            return (_formatGetters == null || _formatGetters.Count == 0);            
+        }      
 
         public IList<Person> GetPersons(string fileName)
         {
@@ -59,17 +69,28 @@ namespace GRLibrary
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
+                throw e;
             }            
             return persons;           
         }
 
         private KeyValuePair<FileFormatEnum, char> GetDilimiter(FileFormatEnum fileFormat)
         {
+            if (AreDelimitersMissing())
+            {
+                throw new DelimitersException("Delimiters are missing.");
+            }
+
             return (from d in _delimiters
                     where d.Key == fileFormat
                     select d).FirstOrDefault();
         }
-                
+
+        private bool AreDelimitersMissing()
+        {
+            return (_delimiters == null || _delimiters.Count == 0);
+        }
+
         private List<Person> GetPersons(string path, char delimiter)
         {
             var persons = new List<Person>();
