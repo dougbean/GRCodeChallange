@@ -24,7 +24,7 @@ namespace GRConsole
         private static void InitializeServices()
         {
             List<FileFormatGetter> formatGetters = GetFormatGetters();
-            Dictionary<FileFormatEnum, char> delimiters = GetDelimiters();
+            Dictionary<FormatEnum, char> delimiters = GetDelimiters();
             _parserService = new ParserService(formatGetters, delimiters);
             _sortService = new SortService();
         }
@@ -35,12 +35,12 @@ namespace GRConsole
                   { new CommaFormatGetter(), new PipeFormatGetter(), new SpaceFormatGetter() };
         }
 
-        private static Dictionary<FileFormatEnum, char> GetDelimiters()
+        private static Dictionary<FormatEnum, char> GetDelimiters()
         {
-            Dictionary<FileFormatEnum, char> delimiters = new Dictionary<FileFormatEnum, char>();
-            delimiters.Add(FileFormatEnum.comma, ',');
-            delimiters.Add(FileFormatEnum.pipe, '|');
-            delimiters.Add(FileFormatEnum.space, ' ');
+            Dictionary<FormatEnum, char> delimiters = new Dictionary<FormatEnum, char>();
+            delimiters.Add(FormatEnum.comma, ',');
+            delimiters.Add(FormatEnum.pipe, '|');
+            delimiters.Add(FormatEnum.space, ' ');
             return delimiters;
         }
 

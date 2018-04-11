@@ -3,6 +3,6 @@ namespace GRLibrary
 {
     public abstract class FileFormatGetter
     {
-        public abstract FileFormatEnum GetFileFormat(string fileName);
+        public abstract FormatEnum GetFileFormat(string fileName);
     }
 }

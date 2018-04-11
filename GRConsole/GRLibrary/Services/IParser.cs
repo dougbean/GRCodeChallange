@@ -5,7 +5,8 @@ namespace GRLibrary.Services
 {
     public interface IParser
     {
-        FileFormatEnum GetFileFormat(string fileName);
-        IList<Person> GetPersons(string fullFileName); 
+        FormatEnum GetFormat(string input);
+        IList<Person> GetPersons(string fileName);
+        Person GetPerson(FormatEnum format, string record);
     }
 }

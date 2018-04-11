@@ -9,8 +9,8 @@ namespace GRLibrary.Services
     public class ParserService : IParser
     {
         private List<FileFormatGetter> _formatGetters;
-        private Dictionary<FileFormatEnum, char> _delimiters;
-        public ParserService(List<FileFormatGetter> formatGetters, Dictionary<FileFormatEnum, char> delimiters)
+        private Dictionary<FormatEnum, char> _delimiters;
+        public ParserService(List<FileFormatGetter> formatGetters, Dictionary<FormatEnum, char> delimiters)
         {
             _formatGetters = formatGetters;
             _delimiters = delimiters;
@@ -32,18 +32,18 @@ namespace GRLibrary.Services
             }
         }
        
-        public FileFormatEnum GetFileFormat(string fileName) 
+        public FormatEnum GetFormat(string input) 
         {
             if (AreFormatGettersMissing())
             {
                 throw new FormatGetterException("FileFormatGetters are missing.");
             }
 
-            var result = new FileFormatEnum();
+            var result = new FormatEnum();
             foreach (var getter in _formatGetters)
             {
-                result = getter.GetFileFormat(fileName);
-                if (result != FileFormatEnum.none)
+                result = getter.GetFileFormat(input);
+                if (result != FormatEnum.none)
                 {
                     break;
                 }
@@ -61,11 +61,11 @@ namespace GRLibrary.Services
             List<Person> persons = new List<Person>();
             try
             {
-                FileFormatEnum fileFormat = GetFileFormat(fileName);
+                FormatEnum format = GetFormat(fileName);
 
-                KeyValuePair<FileFormatEnum, char> kvp = GetDilimiter(fileFormat);
+                KeyValuePair<FormatEnum, char> delimiter = GetDilimiter(format);
 
-                persons = GetPersons(fileName, kvp.Value);
+                persons = GetPersons(fileName, delimiter.Value);
             }
             catch(Exception e)
             {
@@ -75,7 +75,7 @@ namespace GRLibrary.Services
             return persons;           
         }
 
-        private KeyValuePair<FileFormatEnum, char> GetDilimiter(FileFormatEnum fileFormat)
+        private KeyValuePair<FormatEnum, char> GetDilimiter(FormatEnum fileFormat)
         {
             if (AreDelimitersMissing())
             {
@@ -132,6 +132,24 @@ namespace GRLibrary.Services
             if (success)
             {
                 person.DateOfBirth = result;
+            }
+            return person;
+        }
+
+        public Person GetPerson(FormatEnum format, string record)
+        {
+            Person person;
+            try
+            {
+                KeyValuePair<FormatEnum, char> delimiter = GetDilimiter(format);
+
+                string[] parsedRecord = record.Split(delimiter.Value);
+                person = GetPerson(parsedRecord);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
             }
             return person;
         }

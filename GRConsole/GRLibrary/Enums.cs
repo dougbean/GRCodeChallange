@@ -1,7 +1,7 @@
 ﻿
 namespace GRLibrary
 {
-    public enum FileFormatEnum
+    public enum FormatEnum
     {
         none,
         comma,

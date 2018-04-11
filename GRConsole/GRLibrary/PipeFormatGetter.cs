@@ -3,12 +3,12 @@ namespace GRLibrary
 {
     public class PipeFormatGetter : FileFormatGetter
     {
-        public override FileFormatEnum GetFileFormat(string fileName)
+        public override FormatEnum GetFileFormat(string fileName)
         {
-            FileFormatEnum result = new FileFormatEnum();
+            FormatEnum result = new FormatEnum();
             if (fileName.Contains(Constants.Pipe))
             {
-                result = FileFormatEnum.pipe;
+                result = FormatEnum.pipe;
             }
             return result;
         }

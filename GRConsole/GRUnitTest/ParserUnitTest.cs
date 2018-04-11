@@ -21,7 +21,7 @@ namespace GRUnitTest
         {
             List<FileFormatGetter> formatGetters = GetFormatGetters();
 
-            Dictionary<FileFormatEnum, char> delimiters = GetDelimiters();
+            Dictionary<FormatEnum, char> delimiters = GetDelimiters();
 
             _parserService = new ParserService(formatGetters, delimiters);
         }
@@ -32,13 +32,13 @@ namespace GRUnitTest
                   { new CommaFormatGetter(), new PipeFormatGetter(), new SpaceFormatGetter() };
         }
 
-        private static Dictionary<FileFormatEnum, char> GetDelimiters()
+        private static Dictionary<FormatEnum, char> GetDelimiters()
         {
-            Dictionary<FileFormatEnum, char> delimiters = new Dictionary<FileFormatEnum, char>();
+            Dictionary<FormatEnum, char> delimiters = new Dictionary<FormatEnum, char>();
 
-            delimiters.Add(FileFormatEnum.comma, ',');
-            delimiters.Add(FileFormatEnum.pipe, '|');
-            delimiters.Add(FileFormatEnum.space, ' ');
+            delimiters.Add(FormatEnum.comma, ',');
+            delimiters.Add(FormatEnum.pipe, '|');
+            delimiters.Add(FormatEnum.space, ' ');
             return delimiters;
         }
 
@@ -49,10 +49,10 @@ namespace GRUnitTest
             string fileName = @"C:\gtr\gtr-comma.txt";
 
             //act          
-            FileFormatEnum actual = _parserService.GetFileFormat(fileName); 
+            FormatEnum actual = _parserService.GetFormat(fileName); 
 
             //assert
-            FileFormatEnum expected = FileFormatEnum.comma;
+            FormatEnum expected = FormatEnum.comma;
             Assert.AreEqual(expected, actual);
         }
 
@@ -63,10 +63,10 @@ namespace GRUnitTest
             string fileName = @"C:\gtr\gtr-pipe.txt";
 
             //act            
-            FileFormatEnum actual = _parserService.GetFileFormat(fileName);
+            FormatEnum actual = _parserService.GetFormat(fileName);
 
             //assert
-            FileFormatEnum expected = FileFormatEnum.pipe;
+            FormatEnum expected = FormatEnum.pipe;
             Assert.AreEqual(expected, actual);
         }
 
@@ -77,10 +77,10 @@ namespace GRUnitTest
             string fileName = @"C:\gtr\gtr-space.txt";
 
             //act          
-            FileFormatEnum actual = _parserService.GetFileFormat(fileName);
+            FormatEnum actual = _parserService.GetFormat(fileName);
 
             //assert
-            FileFormatEnum expected = FileFormatEnum.space;
+            FormatEnum expected = FormatEnum.space;
             Assert.AreEqual(expected, actual);
         }       
 
@@ -231,7 +231,7 @@ namespace GRUnitTest
 
             List<FileFormatGetter> formatGetters = null;
 
-            Dictionary<FileFormatEnum, char> delimiters = GetDelimiters();
+            Dictionary<FormatEnum, char> delimiters = GetDelimiters();
 
             var parserService = new ParserService(formatGetters, delimiters);
 
@@ -256,7 +256,7 @@ namespace GRUnitTest
            
             List<FileFormatGetter> formatGetters = GetFormatGetters();
 
-            Dictionary<FileFormatEnum, char> delimiters = null;
+            Dictionary<FormatEnum, char> delimiters = null;
 
             var parserService = new ParserService(formatGetters, delimiters);
 
