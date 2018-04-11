@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using GRLibrary.Model;
 using GRLibrary.Services;
 using GRLibrary;
-using GRWebAPI.Model;
 
 namespace GRWebAPI.Services
 {
@@ -17,6 +16,7 @@ namespace GRWebAPI.Services
         private ParserServiceWrapper()
         {
             InitializeParserService();
+            PersonCache = new List<Person>();
         }
 
         private static volatile ParserServiceWrapper _instance = null;

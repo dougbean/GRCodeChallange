@@ -17,26 +17,12 @@ namespace GRWebAPI.Controllers
     public class RecordsController : Controller
     {
         private ParserServiceWrapper _parserServiceWrapper = ParserServiceWrapper.GetInstance();
-        
-        private ISortService _sortService; 
+        private SortServiceWrapper _sortServiceWrapper = SortServiceWrapper.GetInstance();         
 
-        public ISortService SortService
-        {
-            get
-            {
-                if (_sortService == null)
-                {
-                    _sortService = new SortService(); 
-                }
-                return _sortService;
-            }
-        }
-
-        // GET: api/Records
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IList<Person> Get() //todo: remember to have the sorting service format the date of the result.
         {
-            return new string[] { "value1", "value2" };
+            return _parserServiceWrapper.PersonCache;            
         }
 
         // GET: api/Records/5
@@ -44,14 +30,7 @@ namespace GRWebAPI.Controllers
         public string Get(int id)
         {
             return "value";
-        }
-
-        //// POST: api/Records
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
-
-        //}      
+        }      
 
         // POST: api/Records
         [HttpPost]
@@ -59,6 +38,7 @@ namespace GRWebAPI.Controllers
         {
             FormatEnum format = _parserServiceWrapper.ParserService.GetFormat(record.Delimiter);
             Person person = _parserServiceWrapper.ParserService.GetPerson(format, record.Line);
+            _parserServiceWrapper.PersonCache.Add(person);
         }
 
         // PUT: api/Records/5
