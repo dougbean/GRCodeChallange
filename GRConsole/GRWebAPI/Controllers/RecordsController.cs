@@ -8,6 +8,7 @@ using GRLibrary.Model;
 using GRLibrary.Services;
 using GRLibrary;
 using GRWebAPI.Model;
+using GRWebAPI.Services;
 
 namespace GRWebAPI.Controllers
 {
@@ -15,42 +16,9 @@ namespace GRWebAPI.Controllers
     [Route("api/Records")]
     public class RecordsController : Controller
     {
-        private IParser _parserService;
+        private ParserServiceWrapper _parserServiceWrapper = ParserServiceWrapper.GetInstance();
+        
         private ISortService _sortService; 
-                        
-        public IParser ParserService
-        {
-            get
-            {
-                if (_parserService == null)
-                {
-                    InitializeParserService();
-                }
-                return _parserService;
-            }          
-        }
-
-        private void InitializeParserService()
-        {
-            List<FileFormatGetter> formatGetters = GetFormatGetters();
-            Dictionary<FormatEnum, char> delimiters = GetDelimiters();
-            _parserService = new ParserService(formatGetters, delimiters);            
-        }
-
-        private List<FileFormatGetter> GetFormatGetters()
-        {
-            return new List<FileFormatGetter>()
-                  { new CommaFormatGetter(), new PipeFormatGetter(), new SpaceFormatGetter() };
-        }
-
-        private Dictionary<FormatEnum, char> GetDelimiters()
-        {
-            Dictionary<FormatEnum, char> delimiters = new Dictionary<FormatEnum, char>();
-            delimiters.Add(FormatEnum.comma, ',');
-            delimiters.Add(FormatEnum.pipe, '|');
-            delimiters.Add(FormatEnum.space, ' ');
-            return delimiters;
-        }
 
         public ISortService SortService
         {
@@ -89,8 +57,8 @@ namespace GRWebAPI.Controllers
         [HttpPost]
         public void Post([FromBody]Record record)
         {
-            FormatEnum format = ParserService.GetFormat(record.Delimiter);
-            Person person = ParserService.GetPerson(format, record.Line);
+            FormatEnum format = _parserServiceWrapper.ParserService.GetFormat(record.Delimiter);
+            Person person = _parserServiceWrapper.ParserService.GetPerson(format, record.Line);
         }
 
         // PUT: api/Records/5
