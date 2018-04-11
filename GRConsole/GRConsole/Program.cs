@@ -38,7 +38,6 @@ namespace GRConsole
         private static Dictionary<FileFormatEnum, char> GetDelimiters()
         {
             Dictionary<FileFormatEnum, char> delimiters = new Dictionary<FileFormatEnum, char>();
-
             delimiters.Add(FileFormatEnum.comma, ',');
             delimiters.Add(FileFormatEnum.pipe, '|');
             delimiters.Add(FileFormatEnum.space, ' ');
@@ -49,8 +48,8 @@ namespace GRConsole
         {
             Console.WriteLine("Enter file and path with file format specified as part of the name, " +
                            "such as 'comma', 'pipe' or 'space':");
-
             string input = Console.ReadLine();
+
             IList<Person> unsortedList = _parserService.GetPersons(input);
             Sort(sortService, unsortedList);
         }
