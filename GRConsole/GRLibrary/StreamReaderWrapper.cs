@@ -3,23 +3,11 @@ using System;
 
 namespace GRLibrary
 {
-    public class StreamReaderWrapper : IStreamReader, IDisposable //todo: make sure I'm using this interface correctly.
+    public class StreamReaderWrapper : IStreamReader, IDisposable 
     {   
         private StreamReader _streamReader;
-
-        //04092018//
-        //public StreamReaderWrapper(string path)
-        //{
-        //    _streamReader = new StreamReader(path);
-        //}
-        //04092018//
-
-        //public void InitializeReader(Stream stream) //todo: Remove this?
-        //{
-        //    _streamReader = new StreamReader(stream);
-        //}
-
-        public void InitializeReader(string path) //todo: Remove this?
+        
+        public void InitializeReader(string path) 
         {
             _streamReader = new StreamReader(path);
         }

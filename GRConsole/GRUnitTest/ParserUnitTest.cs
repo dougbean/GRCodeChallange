@@ -30,7 +30,7 @@ namespace GRUnitTest
         }
 
         [TestMethod]
-        public void ServiceShouldGetCommaFileFormatFromFileName()
+        public void ParserServiceShouldGetCommaFileFormatFromFileName()
         {
             //arrange
             string fileName = @"C:\gtr\gtr-comma.txt";
@@ -44,7 +44,7 @@ namespace GRUnitTest
         }
 
         [TestMethod]
-        public void ServiceShouldGetPipeFileFormatFromFileName()
+        public void ParserServiceShouldGetPipeFileFormatFromFileName()
         {
             //arrange
             string fileName = @"C:\gtr\gtr-pipe.txt";
@@ -58,7 +58,7 @@ namespace GRUnitTest
         }
 
         [TestMethod]
-        public void ServiceShouldGetSpaceFileFormatFromFileName()
+        public void ParserServiceShouldGetSpaceFileFormatFromFileName()
         {
             //arrange
             string fileName = @"C:\gtr\gtr-space.txt";
@@ -157,7 +157,7 @@ namespace GRUnitTest
         }
                 
         [TestMethod]
-        public void PersonListCountShouldMatchLineNumberCount()
+        public void ParserServiceShouldMatchPersonListCountToLineNumberCount()
         {
             //arrange
             //the "pipe" string in the file name tells the parser to use a pipe delimiter
