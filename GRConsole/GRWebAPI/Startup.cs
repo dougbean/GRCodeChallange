@@ -43,7 +43,7 @@ namespace GRWebAPI
             {              
                 routes.MapRoute(
                    name: "default",                  
-                   template: "{controller=Home}/{action}/{sortby?}");
+                   template: "{controller=Home}/{action}/{sortby}");
             });
         }
     }
