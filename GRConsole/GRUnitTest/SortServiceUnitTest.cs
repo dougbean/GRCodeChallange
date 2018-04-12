@@ -26,6 +26,7 @@ namespace GRUnitTest
 
             //act          
             IList<Person> sortedList =_sortService.SortByGenderAndLastNameAscending(unsortedList);
+
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
                        
@@ -60,6 +61,7 @@ namespace GRUnitTest
 
             //act          
             IList<Person> sortedList = _sortService.SortByBirthDateAscending(unsortedList);
+
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 
@@ -76,6 +78,7 @@ namespace GRUnitTest
 
             //act          
             IList<Person> sortedList = _sortService.SortByLastNameDescending(unsortedList);
+
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 

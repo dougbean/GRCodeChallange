@@ -100,6 +100,7 @@ namespace GRUnitTest
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
+
             var person = persons.FirstOrDefault();
 
             //assert
@@ -137,6 +138,7 @@ namespace GRUnitTest
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
+
             var person = persons.FirstOrDefault();
 
             //assert            
@@ -164,6 +166,7 @@ namespace GRUnitTest
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
+
             var person = persons.FirstOrDefault();
 
             //assert
@@ -213,6 +216,7 @@ namespace GRUnitTest
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
+
             var person = persons.FirstOrDefault();
 
             //assert

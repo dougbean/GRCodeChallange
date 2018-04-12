@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using GRLibrary.Model;
+using GRWebAPI.Model;
 using GRWebAPI.Controllers;
 
 namespace GRUnitTest
@@ -38,14 +39,15 @@ namespace GRUnitTest
         }
 
         [TestMethod]
-        public void SortSelectorShouldSelectGenderSort()
+        public void RecordsControllerGetShouldReturnSortedByGenderList()
         {
             //arrange           
             string sortby = "gender";
             IList<Person> unsortedList = _controller._parserServiceWrapper.PersonCache;
 
             //act  
-            IList<Person> sortedList = _controller.Get(sortby);            
+            IList<Person> sortedList = _controller.Get(sortby);  
+            
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 
@@ -55,14 +57,15 @@ namespace GRUnitTest
         }
 
         [TestMethod]
-        public void SortSelectorShouldSelectBirthdateSort()
+        public void RecordsControllerGetShouldReturnSortedByBirthdateList()
         {
             //arrange            
             string sortby = "birthdate";
             IList<Person> unsortedList = _controller._parserServiceWrapper.PersonCache;
 
             //act 
-            IList<Person> sortedList = _controller.Get(sortby);          
+            IList<Person> sortedList = _controller.Get(sortby);  
+            
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 
@@ -72,20 +75,44 @@ namespace GRUnitTest
         }
 
         [TestMethod]
-        public void SortSelectorShouldSelectNameSort()
+        public void RecordsControllerGetShouldReturnSortedByNameList()
         {
             //arrange            
             string sortby = "name";
             IList<Person> unsortedList = _controller._parserServiceWrapper.PersonCache;
 
             //act 
-            IList<Person> sortedList = _controller.Get(sortby);           
+            IList<Person> sortedList = _controller.Get(sortby);    
+            
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 
             //assert
             Assert.AreEqual("Whiteside", first.LastName);
             Assert.AreEqual("Bearns", last.LastName);
-        }       
+        }
+
+        [TestMethod]
+        public void RecordsControllerPostShouldStoreRecordInCache()
+        {
+            //arrange
+            var controller = new RecordsController();
+            var record = new Record() { Delimiter = "pipe", Line = "Braams|Karrah|Female|Goldenrod|10/8/1968" };
+            string sortby = "name";
+            controller._parserServiceWrapper.PersonCache = new List<Person>();
+
+            //act             
+            _controller.Post(record);
+
+            IList<Person> unsortedList = controller._parserServiceWrapper.PersonCache;
+            var first = unsortedList.FirstOrDefault();
+
+            //assert
+            Assert.AreEqual("Braams", first.LastName);
+            Assert.AreEqual("Karrah", first.FirstName);
+            Assert.AreEqual("Female", first.Gender);
+            Assert.AreEqual("Goldenrod", first.FavoriteColor);
+            Assert.AreEqual("10/8/1968", first.DateOfBirth.ToString("d"));
+        }
     }
 }
