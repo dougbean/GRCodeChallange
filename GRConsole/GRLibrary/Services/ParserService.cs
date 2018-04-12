@@ -36,7 +36,7 @@ namespace GRLibrary.Services
         {
             if (AreFormatGettersMissing())
             {
-                throw new FormatGetterException("FileFormatGetters are missing.");
+                throw new Exception("FileFormatGetters are missing.");
             }
 
             var result = new FormatEnum();
@@ -79,7 +79,7 @@ namespace GRLibrary.Services
         {
             if (AreDelimitersMissing())
             {
-                throw new DelimitersException("Delimiters are missing.");
+                throw new Exception("Delimiters are missing.");
             }
 
             return (from d in _delimiters
@@ -113,10 +113,19 @@ namespace GRLibrary.Services
             while ((line = StreamReader.ReadLine()) != null)
             {
                 string[] parsedRecord = line.Split(delimiter);
-                //todo: throw a custom exception if the parsed record array doesn't have the expected number of elements.
+               
+                if (IsParsedRecordArrayWrongSize(parsedRecord))
+                {                  
+                    throw new Exception("Parsing of record failed. Parsed record array does not have five elements.");
+                }
                 Person person = GetPerson(parsedRecord);
                 persons.Add(person);
             }
+        }
+
+        private bool IsParsedRecordArrayWrongSize(string[] parsedRecord)
+        {
+            return (parsedRecord.Length != 5);
         }
 
         private static Person GetPerson(string[] parsedRecord)

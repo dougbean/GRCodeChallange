@@ -224,8 +224,8 @@ namespace GRUnitTest
             Assert.AreEqual(expected, person.LastName);
             mockStreamReader.VerifyAll();
         }
-                
-        [ExpectedException(typeof(FormatGetterException))]
+       
+        [ExpectedException(typeof(Exception))]
         [TestMethod]        
         public void FileFormatGettersShouldBePresentForParserService()
         {
@@ -249,8 +249,8 @@ namespace GRUnitTest
             //act
             IList<Person> persons = parserService.GetPersons(fileName);       
         }
-
-        [ExpectedException(typeof(DelimitersException))]
+       
+        [ExpectedException(typeof(Exception))]
         [TestMethod]
         public void DelimitersShouldBePresentForParserService()
         {
@@ -273,6 +273,25 @@ namespace GRUnitTest
 
             //act
             IList<Person> persons = parserService.GetPersons(fileName);
+        }
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void ParserServiceShouldThrowExceptionIfParseFails()
+        {
+            //arrange
+            //the "space" string in the file name tells the parser to use a space delimiter
+            string fileName = @"C:\gtr\gtr-pipe.txt"; //deliberately wrong delimiter specified
+
+            var mockStreamReader = new Mock<IStreamReader>();
+            mockStreamReader.Setup(s => s.ReadLine())
+                 .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
+
+            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
+            _parserService.StreamReader = mockStreamReader.Object;
+
+            //act
+            IList<Person> persons = _parserService.GetPersons(fileName);            
         }
     }
 }
