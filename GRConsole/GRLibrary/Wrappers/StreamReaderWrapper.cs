@@ -14,14 +14,8 @@ namespace GRLibrary.Wrappers
 
         public string ReadLine()
         {
-            string line = _streamReader.ReadLine();
-            return line;
+            return  _streamReader.ReadLine();
         }
-
-        //public StreamReader Reader
-        //{
-        //    get { return _streamReader; }
-        //}
 
         public void Dispose()
         {
