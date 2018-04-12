@@ -8,7 +8,7 @@ using GRWebAPI.Controllers;
 namespace GRUnitTest
 {
     [TestClass]
-    public class SortSelectorUnitTest
+    public class RecordsControllerUnitTest
     {
         private RecordsController _controller;
         
@@ -45,7 +45,7 @@ namespace GRUnitTest
             IList<Person> unsortedList = _controller._parserServiceWrapper.PersonCache;
 
             //act  
-            IList<Person> sortedList = _controller.GetPersons(unsortedList, sortby);
+            IList<Person> sortedList = _controller.Get(sortby);            
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 
@@ -62,7 +62,7 @@ namespace GRUnitTest
             IList<Person> unsortedList = _controller._parserServiceWrapper.PersonCache;
 
             //act 
-            IList<Person> sortedList = _controller.GetPersons(unsortedList, sortby);
+            IList<Person> sortedList = _controller.Get(sortby);          
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 
@@ -79,13 +79,13 @@ namespace GRUnitTest
             IList<Person> unsortedList = _controller._parserServiceWrapper.PersonCache;
 
             //act 
-            IList<Person> sortedList = _controller.GetPersons(unsortedList, sortby);
+            IList<Person> sortedList = _controller.Get(sortby);           
             var first = sortedList.FirstOrDefault();
             var last = sortedList.LastOrDefault();
 
             //assert
             Assert.AreEqual("Whiteside", first.LastName);
             Assert.AreEqual("Bearns", last.LastName);
-        }
+        }       
     }
 }

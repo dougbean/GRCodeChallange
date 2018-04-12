@@ -40,7 +40,7 @@ namespace GRWebAPI.Controllers
             return sortedList;
         }
 
-        public IList<Person> GetPersons(IList<Person> unsortedList, string sortBy)
+        private IList<Person> GetPersons(IList<Person> unsortedList, string sortBy)
         {
             IList<Person> persons = new List<Person>();
             foreach (var selector in SortSelectors)
