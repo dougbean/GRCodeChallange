@@ -13,8 +13,7 @@ namespace GRWebAPI.Controllers
     {
         public ParserServiceWrapper _parserServiceWrapper = ParserServiceWrapper.GetInstance();
         private SortServiceWrapper _sortServiceWrapper = SortServiceWrapper.GetInstance();
-
-        //lazy load the sort selectors
+               
         private List<SortSelector> _sortSelectors;
         private List<SortSelector> SortSelectors
         {

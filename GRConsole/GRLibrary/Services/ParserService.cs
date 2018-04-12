@@ -134,8 +134,7 @@ namespace GRLibrary.Services
         private List<Person> GetPersons(string path, char delimiter)
         {
             var persons = new List<Person>();
-
-            string line;
+                       
             using (StreamReaderWrapper)
             {                
                 CheckForFile(path);
@@ -189,18 +188,23 @@ namespace GRLibrary.Services
             var person = new Person()
             {
                 LastName = parsedRecord[0],
-                FirstName = parsedRecord[1],                
+                FirstName = parsedRecord[1],
                 Gender = parsedRecord[2],
                 FavoriteColor = parsedRecord[3],
-            };
+            };                
+            SetDateOfBirth(parsedRecord, person);
 
+            return person;
+        }
+
+        private static void SetDateOfBirth(string[] parsedRecord, Person person)
+        {
             DateTime result;
             bool success = DateTime.TryParse(parsedRecord[4], out result);
             if (success)
             {
                 person.DateOfBirth = result;
             }
-            return person;
         }
 
         public Person GetPerson(FormatEnum format, string record)

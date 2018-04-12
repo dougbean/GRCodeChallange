@@ -19,9 +19,7 @@ namespace GRUnitTest
         public void Initialize()
         {
             List<FileFormatGetter> formatGetters = GetFormatGetters();
-
             Dictionary<FormatEnum, char> delimiters = GetDelimiters();
-
             _parserService = new ParserService(formatGetters, delimiters);
         }
 
@@ -34,7 +32,6 @@ namespace GRUnitTest
         private static Dictionary<FormatEnum, char> GetDelimiters()
         {
             Dictionary<FormatEnum, char> delimiters = new Dictionary<FormatEnum, char>();
-
             delimiters.Add(FormatEnum.comma, ',');
             delimiters.Add(FormatEnum.pipe, '|');
             delimiters.Add(FormatEnum.space, ' ');
@@ -278,8 +275,7 @@ namespace GRUnitTest
         [TestMethod]
         public void ParserServiceShouldThrowExceptionIfParseFails()
         {
-            //arrange
-            //the "space" string in the file name tells the parser to use a space delimiter
+            //arrange            
             string fileName = @"C:\gtr\gtr-deliberately-wrong-format-specified-pipe.txt"; 
 
             var mockStreamReader = new Mock<IStreamReader>();
@@ -297,8 +293,7 @@ namespace GRUnitTest
         [TestMethod]
         public void ParserServiceShouldThrowExceptionIfValidFileFormatIsNotSpecified()
         {
-            //arrange
-            //the "space" string in the file name tells the parser to use a space delimiter
+            //arrange            
             string fileName = @"C:\gtr\gtr-no-valid-format-specified.txt"; 
 
             var mockStreamReader = new Mock<IStreamReader>();
