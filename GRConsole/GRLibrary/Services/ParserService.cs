@@ -62,7 +62,7 @@ namespace GRLibrary.Services
             try
             {
                 FormatEnum format = GetFormat(fileName);
-
+                //todo: throw an exception here if format is 'none'
                 KeyValuePair<FormatEnum, char> delimiter = GetDilimiter(format);
 
                 persons = GetPersons(fileName, delimiter.Value);
@@ -99,6 +99,7 @@ namespace GRLibrary.Services
             string line;
             using (StreamReader)
             {
+                //todo: throw custom exception here if directory/file don't exist.
                 StreamReader.InitializeReader(path);
                 ReadLines(delimiter, persons);
             }
@@ -112,6 +113,7 @@ namespace GRLibrary.Services
             while ((line = StreamReader.ReadLine()) != null)
             {
                 string[] parsedRecord = line.Split(delimiter);
+                //todo: throw a custom exception if the parsed record array doesn't have the expected number of elements.
                 Person person = GetPerson(parsedRecord);
                 persons.Add(person);
             }
