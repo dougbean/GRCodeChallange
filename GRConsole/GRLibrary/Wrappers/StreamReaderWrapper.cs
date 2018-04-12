@@ -18,10 +18,10 @@ namespace GRLibrary.Wrappers
             return line;
         }
 
-        public StreamReader Reader
-        {
-            get { return _streamReader; }
-        }
+        //public StreamReader Reader
+        //{
+        //    get { return _streamReader; }
+        //}
 
         public void Dispose()
         {

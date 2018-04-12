@@ -17,7 +17,7 @@ namespace GRLibrary.Services
         }
 
         private IStreamReader _streamReader;
-        public IStreamReader StreamReader {
+        public IStreamReader StreamReaderWrapper {
            get 
             {
                 if(_streamReader == null)
@@ -31,7 +31,24 @@ namespace GRLibrary.Services
                 _streamReader = value; 
             }
         }
-       
+
+        private IFileSystem _fileSystem;
+        public IFileSystem FileSystemWrapper
+        {
+            get
+            {
+                if (_fileSystem == null)
+                {
+                    _fileSystem = new FileSystemWrapper();
+                }
+                return _fileSystem;
+            }
+            set
+            {
+                _fileSystem = value;
+            }
+        }
+
         public FormatEnum GetFormat(string input)
         {            
             CheckFormatters();
@@ -119,20 +136,33 @@ namespace GRLibrary.Services
             var persons = new List<Person>();
 
             string line;
-            using (StreamReader)
-            {
-                //todo: throw custom exception here if directory/file don't exist.
-                StreamReader.InitializeReader(path);
+            using (StreamReaderWrapper)
+            {                
+                CheckForFile(path);
+                StreamReaderWrapper.InitializeReader(path);
                 ReadLines(delimiter, persons);
             }
 
             return persons;
         }
 
+        private void CheckForFile(string path)
+        {
+            if (IsSpecifiedFileNotFound(path))
+            {
+                throw new Exception("Specified file is not found.");
+            }
+        }
+
+        private bool IsSpecifiedFileNotFound(string path)
+        {
+            return (!FileSystemWrapper.FileExists(path));
+        }
+
         private void ReadLines(char delimiter, List<Person> persons)
         {
             string line;
-            while ((line = StreamReader.ReadLine()) != null)
+            while ((line = StreamReaderWrapper.ReadLine()) != null)
             {
                 string[] parsedRecord = line.Split(delimiter);                
                 CheckArraySize(parsedRecord);

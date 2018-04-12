@@ -7,6 +7,6 @@ namespace GRLibrary.Wrappers
     {
         string ReadLine();
         void InitializeReader(string path);
-        StreamReader Reader { get; } //do I need this method?
+        //StreamReader Reader { get; } //do I need this method?
     }
 }

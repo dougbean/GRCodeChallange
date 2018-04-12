@@ -95,7 +95,7 @@ namespace GRUnitTest
                    .Returns(new Queue<string>(new[] { "Gibbe,Candace,Female,Crimson,3/28/2010", null }).Dequeue);
             
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
@@ -133,7 +133,7 @@ namespace GRUnitTest
                    .Returns(new Queue<string>(new[] { builder.ToString(), null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
@@ -161,7 +161,7 @@ namespace GRUnitTest
                  .Returns(new Queue<string>(new[] { "Veregan|Jsandye|Female|Khaki|1/27/2007", null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
@@ -188,7 +188,7 @@ namespace GRUnitTest
                  .Returns(new Queue<string>(new[] { line, line2, null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
@@ -211,7 +211,7 @@ namespace GRUnitTest
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
@@ -243,7 +243,7 @@ namespace GRUnitTest
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = parserService.GetPersons(fileName);       
@@ -268,7 +268,7 @@ namespace GRUnitTest
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = parserService.GetPersons(fileName);
@@ -287,7 +287,7 @@ namespace GRUnitTest
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);            
@@ -306,10 +306,33 @@ namespace GRUnitTest
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
             mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReader = mockStreamReader.Object;
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;           
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);
+        }
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void ParserServiceShouldThrowExceptionIfSpecifiedFileIsNotFound()
+        {
+            //arrange
+            //the "space" string in the file name tells the parser to use a space delimiter
+            string fileName = @"C:\gtr\gtr-space.txt";
+            var mockFileSystem = new Mock<IFileSystem>();
+            mockFileSystem.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false).Verifiable();
+
+            var mockStreamReader = new Mock<IStreamReader>();
+            mockStreamReader.Setup(s => s.ReadLine())
+                 .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
+
+            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
+            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            _parserService.FileSystemWrapper = mockFileSystem.Object;
+
+            //act and assert
+            IList<Person> persons = _parserService.GetPersons(fileName);
+            mockFileSystem.VerifyAll();
         }
     }
 }
