@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Text;
-using GRLibrary;
 using GRLibrary.Model;
 using GRLibrary.Services;
 using GRLibrary.Wrappers;
@@ -281,7 +280,7 @@ namespace GRUnitTest
         {
             //arrange
             //the "space" string in the file name tells the parser to use a space delimiter
-            string fileName = @"C:\gtr\gtr-pipe.txt"; //deliberately wrong delimiter specified
+            string fileName = @"C:\gtr\gtr-deliberately-wrong-format-specified-pipe.txt"; 
 
             var mockStreamReader = new Mock<IStreamReader>();
             mockStreamReader.Setup(s => s.ReadLine())
@@ -292,6 +291,25 @@ namespace GRUnitTest
 
             //act
             IList<Person> persons = _parserService.GetPersons(fileName);            
+        }
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void ParserServiceShouldThrowExceptionIfValidFileFormatIsNotSpecified()
+        {
+            //arrange
+            //the "space" string in the file name tells the parser to use a space delimiter
+            string fileName = @"C:\gtr\gtr-no-valid-format-specified.txt"; 
+
+            var mockStreamReader = new Mock<IStreamReader>();
+            mockStreamReader.Setup(s => s.ReadLine())
+                 .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
+
+            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
+            _parserService.StreamReader = mockStreamReader.Object;
+
+            //act
+            IList<Person> persons = _parserService.GetPersons(fileName);
         }
     }
 }

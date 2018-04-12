@@ -32,12 +32,9 @@ namespace GRLibrary.Services
             }
         }
        
-        public FormatEnum GetFormat(string input) 
-        {
-            if (AreFormatGettersMissing())
-            {
-                throw new Exception("FileFormatGetters are missing.");
-            }
+        public FormatEnum GetFormat(string input)
+        {            
+            CheckFormatters();
 
             var result = new FormatEnum();
             foreach (var getter in _formatGetters)
@@ -51,6 +48,14 @@ namespace GRLibrary.Services
             return result;
         }
 
+        private void CheckFormatters()
+        {
+            if (AreFormatGettersMissing())
+            {
+                throw new Exception("FileFormatGetters are missing.");
+            }
+        }
+
         private bool AreFormatGettersMissing()
         {
             return (_formatGetters == null || _formatGetters.Count == 0);            
@@ -61,13 +66,12 @@ namespace GRLibrary.Services
             List<Person> persons = new List<Person>();
             try
             {
-                FormatEnum format = GetFormat(fileName);
-                //todo: throw an exception here if format is 'none'
+                FormatEnum format = GetFormat(fileName);                 
+                CheckFormat(format);               
                 KeyValuePair<FormatEnum, char> delimiter = GetDilimiter(format);
-
                 persons = GetPersons(fileName, delimiter.Value);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 throw e;
@@ -75,16 +79,34 @@ namespace GRLibrary.Services
             return persons;           
         }
 
+        private void CheckFormat(FormatEnum format)
+        {
+            if (IsSpecifiedFormatNone(format))
+            {
+                throw new Exception("Valid file format is not specified in file name.");
+            }
+        }
+
+        private bool IsSpecifiedFormatNone(FormatEnum format)
+        {
+            return (FormatEnum.none == format);
+        }
+
         private KeyValuePair<FormatEnum, char> GetDilimiter(FormatEnum fileFormat)
+        {          
+            CheckDelimiters();
+
+            return (from d in _delimiters
+                    where d.Key == fileFormat
+                    select d).FirstOrDefault();
+        }
+
+        private void CheckDelimiters()
         {
             if (AreDelimitersMissing())
             {
                 throw new Exception("Delimiters are missing.");
             }
-
-            return (from d in _delimiters
-                    where d.Key == fileFormat
-                    select d).FirstOrDefault();
         }
 
         private bool AreDelimitersMissing()
@@ -112,14 +134,18 @@ namespace GRLibrary.Services
             string line;
             while ((line = StreamReader.ReadLine()) != null)
             {
-                string[] parsedRecord = line.Split(delimiter);
-               
-                if (IsParsedRecordArrayWrongSize(parsedRecord))
-                {                  
-                    throw new Exception("Parsing of record failed. Parsed record array does not have five elements.");
-                }
+                string[] parsedRecord = line.Split(delimiter);                
+                CheckArraySize(parsedRecord);
                 Person person = GetPerson(parsedRecord);
                 persons.Add(person);
+            }
+        }
+
+        private void CheckArraySize(string[] parsedRecord)
+        {
+            if (IsParsedRecordArrayWrongSize(parsedRecord))
+            {
+                throw new Exception("Parsing of record failed. Parsed record array does not have five elements.");
             }
         }
 
@@ -155,6 +181,7 @@ namespace GRLibrary.Services
                 KeyValuePair<FormatEnum, char> delimiter = GetDilimiter(format);
 
                 string[] parsedRecord = record.Split(delimiter.Value);
+                CheckArraySize(parsedRecord);
                 person = GetPerson(parsedRecord);
             }
             catch (Exception e)
