@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GRLibrary;
 using GRLibrary.Model;
 using GRLibrary.Services;
 
@@ -13,12 +12,21 @@ namespace GRConsole
 
         static void Main(string[] args)
         {
-            InitializeServices();
-
-            while (true)
+            try
             {
-                Parse(_parserService, _sortService);
+                InitializeServices();
+
+                while (true)
+                {
+                    Parse(_parserService, _sortService);
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("press any key to exit..");
+                Console.ReadKey();
+            }           
         }
 
         private static void InitializeServices()
