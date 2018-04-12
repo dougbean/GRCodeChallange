@@ -38,13 +38,12 @@ namespace GRWebAPI
             {
                 settings.GeneratorSettings.DefaultPropertyNameHandling = PropertyNameHandling.CamelCase;
             });
-
-            //app.UseMvc(); //todo: remove this
+                        
             app.UseMvc(routes =>
             {              
                 routes.MapRoute(
-                   name: "default",
-                   template: "{controller=Home}/{action=Index}/{sortby?}");               
+                   name: "default",                  
+                   template: "{controller=Home}/{action}/{sortby?}");
             });
         }
     }
