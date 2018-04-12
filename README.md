@@ -1,7 +1,10 @@
-Simple code challange
-The console program will parse and sort comma, pipe and space delimited text files. Specify "comma", "pipe" or "space" in the name of your text files to tell the parser service to use the corresponding characters as delimiters.
+Simple code challange.
 
-Run the following in the package manager console to install Swagger
+The console program will parse and sort comma, pipe and space delimited text files.
+Specify "comma", "pipe" or "space" in the name of your text files to tell the parser service to use the corresponding characters as delimiters.
+
+Run the following in the package manager console to install Swagger.
+
 Install-Package NSwag.AspNetCore
 
 The following uri will bring up the Swagger interface:
