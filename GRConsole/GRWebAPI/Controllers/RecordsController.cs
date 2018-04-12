@@ -12,7 +12,7 @@ namespace GRWebAPI.Controllers
     [Route("Records")]
     public class RecordsController : Controller
     {
-        private ParserServiceWrapper _parserServiceWrapper = ParserServiceWrapper.GetInstance();
+        public ParserServiceWrapper _parserServiceWrapper = ParserServiceWrapper.GetInstance();
         private SortServiceWrapper _sortServiceWrapper = SortServiceWrapper.GetInstance();
 
         //lazy load the sort selectors
@@ -40,7 +40,7 @@ namespace GRWebAPI.Controllers
             return sortedList;
         }
 
-        private IList<Person> GetPersons(IList<Person> unsortedList, string sortBy)
+        public IList<Person> GetPersons(IList<Person> unsortedList, string sortBy)
         {
             IList<Person> persons = new List<Person>();
             foreach (var selector in SortSelectors)
