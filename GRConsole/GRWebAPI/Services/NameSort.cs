@@ -16,7 +16,7 @@ namespace GRWebAPI.Services
         public override IList<Person> GetGersons(IList<Person> unsortedList, string sortBy)
         {
             IList<Person> persons = new List<Person>();
-            if (sortBy.Contains(Constants.Name))
+            if (sortBy.Contains(GRWebAPI.Model.Constants.Name))
             {
                 persons = _sortService.SortByLastNameDescending(unsortedList);
             }

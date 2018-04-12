@@ -1,5 +1,5 @@
 ﻿
-namespace GRLibrary
+namespace GRLibrary.Model
 {
     public enum FormatEnum
     {

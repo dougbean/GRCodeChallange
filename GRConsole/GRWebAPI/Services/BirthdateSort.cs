@@ -16,7 +16,7 @@ namespace GRWebAPI.Services
         public override IList<Person> GetGersons(IList<Person> unsortedList, string sortBy)
         {
             IList<Person> persons = new List<Person>();
-            if (sortBy.Contains(Constants.Birthdate))
+            if (sortBy.Contains(GRWebAPI.Model.Constants.Birthdate))
             {
                 persons = _sortService.SortByBirthDateAscending(unsortedList);
             }

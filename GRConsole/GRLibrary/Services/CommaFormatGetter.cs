@@ -1,5 +1,6 @@
-﻿
-namespace GRLibrary
+﻿using GRLibrary.Model;
+
+namespace GRLibrary.Services
 {
     public class CommaFormatGetter : FileFormatGetter
     {
