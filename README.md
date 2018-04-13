@@ -8,16 +8,16 @@ Run the following in the package manager console to install Swagger.
 Install-Package NSwag.AspNetCore
 
 The following uri will bring up the Swagger interface:
-http://localhost:58921/swagger
+http://localhost:{port}/swagger
 
-Use the Swagger interface to execute POST and GET commands to GRWebAPI.
+Use the Swagger interface to execute POST and GET commands to DBWebAPI.
 
 Example jsons to POST:
 { "delimiter":"comma", "line":"Gibbe,Candace,Female,Crimson,3/28/2010" }   
 { "delimiter":"space", "line":"Eltringham Nelia Female Crimson 9/5/1962" }   
 { "delimiter":"pipe", "line":"Fudd|Elmer|Male|Green|10/8/1954" }
 
-Execute GET with the following parameters (don't use commas in the Swagger interface).
-gender,
+Execute GET with the following parameters (don't use quotes in the Swagger interface).
+gender
 birthdate
 name 

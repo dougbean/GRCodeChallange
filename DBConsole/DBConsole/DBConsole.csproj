@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GRLibrary\DBLibrary.csproj" />
+    <ProjectReference Include="..\DBLibrary\DBLibrary.csproj" />   
   </ItemGroup>
 
 </Project>

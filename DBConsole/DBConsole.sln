@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBConsole", "GRConsole\DBConsole.csproj", "{F9E03D85-41D2-46D9-BF0F-8F8F6B9E26A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBConsole", "DBConsole\DBConsole.csproj", "{F9E03D85-41D2-46D9-BF0F-8F8F6B9E26A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBLibrary", "GRLibrary\DBLibrary.csproj", "{E04E79E1-684A-429B-8BD8-039E0DD5A0BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBLibrary", "DBLibrary\DBLibrary.csproj", "{E04E79E1-684A-429B-8BD8-039E0DD5A0BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBUnitTest", "GRUnitTest\DBUnitTest.csproj", "{7ABC5BFA-8B47-4AEE-BD86-CBCC8483EA37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBUnitTest", "DBUnitTest\DBUnitTest.csproj", "{7ABC5BFA-8B47-4AEE-BD86-CBCC8483EA37}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBWebAPI", "GRWebAPI\DBWebAPI.csproj", "{3CAFFEF5-E47F-4232-AECA-487B5AE977A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBWebAPI", "DBWebAPI\DBWebAPI.csproj", "{3CAFFEF5-E47F-4232-AECA-487B5AE977A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
