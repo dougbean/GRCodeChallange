@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using GRLibrary.Model;
+using DBLibrary.Model;
 
-namespace GRWebAPI.Services
+namespace DBWebAPI.Services
 {
     public abstract class SortSelector
     {        

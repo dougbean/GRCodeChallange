@@ -1,5 +1,5 @@
 ﻿
-namespace GRWebAPI.Model
+namespace DBWebAPI.Model
 {
     public class Constants
     {

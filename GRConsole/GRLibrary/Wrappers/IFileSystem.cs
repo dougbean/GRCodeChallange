@@ -1,5 +1,5 @@
 ﻿
-namespace GRLibrary.Wrappers
+namespace DBLibrary.Wrappers
 {
     public interface IFileSystem
     {       

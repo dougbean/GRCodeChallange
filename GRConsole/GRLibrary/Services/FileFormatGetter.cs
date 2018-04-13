@@ -1,6 +1,6 @@
-﻿using GRLibrary.Model;
+﻿using DBLibrary.Model;
 
-namespace GRLibrary.Services
+namespace DBLibrary.Services
 {
     public abstract class FileFormatGetter
     {

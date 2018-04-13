@@ -1,6 +1,6 @@
-﻿using GRLibrary.Services;
+﻿using DBLibrary.Services;
 
-namespace GRWebAPI.Services
+namespace DBWebAPI.Services
 {
     public class SortServiceWrapper
     {

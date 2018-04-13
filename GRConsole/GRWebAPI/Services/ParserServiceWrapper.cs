@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using GRLibrary.Model;
-using GRLibrary.Services;
+using DBLibrary.Model;
+using DBLibrary.Services;
 
-namespace GRWebAPI.Services
+namespace DBWebAPI.Services
 {
     public class ParserServiceWrapper
     {

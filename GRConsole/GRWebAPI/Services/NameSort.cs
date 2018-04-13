@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using GRLibrary.Services;
-using GRLibrary.Model;
+using DBLibrary.Services;
+using DBLibrary.Model;
 
-namespace GRWebAPI.Services
+namespace DBWebAPI.Services
 {
     public class NameSort : SortSelector
     {
@@ -15,7 +15,7 @@ namespace GRWebAPI.Services
         public override IList<Person> GetGersons(IList<Person> unsortedList, string sortBy)
         {
             IList<Person> persons = new List<Person>();
-            if (sortBy.Contains(GRWebAPI.Model.Constants.Name))
+            if (sortBy.Contains(DBWebAPI.Model.Constants.Name))
             {
                 persons = _sortService.SortByLastNameDescending(unsortedList);
             }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GRLibrary.Model;
+using DBLibrary.Model;
 
-namespace GRLibrary.Services
+namespace DBLibrary.Services
 {
     public class SortService : ISortService
     {

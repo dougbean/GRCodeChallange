@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GRLibrary\GRLibrary.csproj" />
-    <ProjectReference Include="..\GRWebAPI\GRWebAPI.csproj" />
+    <ProjectReference Include="..\GRLibrary\DBLibrary.csproj" />
+    <ProjectReference Include="..\GRWebAPI\DBWebAPI.csproj" />
   </ItemGroup>
 
 </Project>

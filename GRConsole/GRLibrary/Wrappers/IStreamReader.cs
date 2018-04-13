@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GRLibrary.Wrappers
+namespace DBLibrary.Wrappers
 {
     public interface IStreamReader : IDisposable
     {

@@ -6,7 +6,7 @@ using NSwag.AspNetCore;
 using System.Reflection;
 using NJsonSchema;
 
-namespace GRWebAPI
+namespace DBWebAPI
 {
     public class Startup
     {

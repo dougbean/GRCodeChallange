@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GRLibrary\GRLibrary.csproj" />
+    <ProjectReference Include="..\GRLibrary\DBLibrary.csproj" />
   </ItemGroup>
 
 </Project>

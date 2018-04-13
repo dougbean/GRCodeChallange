@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using GRLibrary.Model;
-using GRWebAPI.Model;
-using GRWebAPI.Services;
+using DBLibrary.Model;
+using DBWebAPI.Model;
+using DBWebAPI.Services;
 
-namespace GRWebAPI.Controllers
+namespace DBWebAPI.Controllers
 {
     [Produces("application/json")]   
     [Route("Records")]

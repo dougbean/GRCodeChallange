@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GRLibrary.Model;
-using GRLibrary.Services;
+using DBLibrary.Model;
+using DBLibrary.Services;
 
-namespace GRConsole
+namespace DBConsole
 {
     class Program
     {

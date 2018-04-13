@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace GRLibrary.Wrappers
+namespace DBLibrary.Wrappers
 {    
     public class FileSystemWrapper: IFileSystem
     {
