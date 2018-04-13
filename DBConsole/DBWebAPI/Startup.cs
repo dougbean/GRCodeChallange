@@ -38,13 +38,8 @@ namespace DBWebAPI
             {
                 settings.GeneratorSettings.DefaultPropertyNameHandling = PropertyNameHandling.CamelCase;
             });
-                        
-            app.UseMvc(routes =>
-            {              
-                routes.MapRoute(
-                   name: "default",                  
-                   template: "{controller=Home}/{action}/{sortby}");
-            });
+
+            app.UseMvc();            
         }
     }
 }

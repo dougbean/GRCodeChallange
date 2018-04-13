@@ -8,7 +8,7 @@ using DBWebAPI.Services;
 namespace DBWebAPI.Controllers
 {
     [Produces("application/json")]   
-    [Route("Records")]
+    [Route("Records")]   
     public class RecordsController : Controller
     {
         public ParserServiceWrapper _parserServiceWrapper = ParserServiceWrapper.GetInstance();
