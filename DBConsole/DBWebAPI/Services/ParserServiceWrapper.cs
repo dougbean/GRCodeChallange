@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DBLibrary.Model;
 using DBLibrary.Services;
+using DBLibrary.Wrappers;
 
 namespace DBWebAPI.Services
 {
@@ -32,7 +33,9 @@ namespace DBWebAPI.Services
         {
             List<FileFormatGetter> formatGetters = GetFormatGetters();
             Dictionary<FormatEnum, char> delimiters = GetDelimiters();
-            ParserService = new ParserService(formatGetters, delimiters);
+            IStreamReader streamReader = new StreamReaderWrapper();
+            IFileSystem fileSystemWrapper = new FileSystemWrapper();
+            ParserService = new ParserService(streamReader, fileSystemWrapper, formatGetters, delimiters);
         }
 
         private static List<FileFormatGetter> GetFormatGetters()

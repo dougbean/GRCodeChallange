@@ -14,13 +14,19 @@ namespace DBUnitTest
     public class ParserUnitTest
     {        
         private ParserService _parserService;
+        private IStreamReader _streamReader;
+        private IFileSystem _fileSystemWrapper;
+        private List<FileFormatGetter> _formatGetters;
+        private Dictionary<FormatEnum, char> _delimiters; 
 
         [TestInitialize]
         public void Initialize()
         {
-            List<FileFormatGetter> formatGetters = GetFormatGetters();
-            Dictionary<FormatEnum, char> delimiters = GetDelimiters();
-            _parserService = new ParserService(formatGetters, delimiters);
+            _formatGetters = GetFormatGetters();
+            _delimiters = GetDelimiters();
+            _streamReader = new StreamReaderWrapper();
+            _fileSystemWrapper = new FileSystemWrapper();
+            _parserService = new ParserService(_streamReader, _fileSystemWrapper, _formatGetters, _delimiters);
         }
 
         private static List<FileFormatGetter> GetFormatGetters()
@@ -91,11 +97,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                    .Returns(new Queue<string>(new[] { "Gibbe,Candace,Female,Crimson,3/28/2010", null }).Dequeue);
             
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>())).Verifiable();
+                        
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, _formatGetters, _delimiters);
 
             //act
-            IList<Person> persons = _parserService.GetPersons(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
 
             var person = persons.FirstOrDefault();
 
@@ -129,11 +136,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                    .Returns(new Queue<string>(new[] { builder.ToString(), null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>())).Verifiable();
+            
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, _formatGetters, _delimiters);
 
             //act
-            IList<Person> persons = _parserService.GetPersons(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
 
             var person = persons.FirstOrDefault();
 
@@ -157,11 +165,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { "Veregan|Jsandye|Female|Khaki|1/27/2007", null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>())).Verifiable();
+            
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, _formatGetters, _delimiters);
 
             //act
-            IList<Person> persons = _parserService.GetPersons(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
 
             var person = persons.FirstOrDefault();
 
@@ -184,11 +193,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { line, line2, null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>())).Verifiable();
+            
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, _formatGetters, _delimiters);
 
             //act
-            IList<Person> persons = _parserService.GetPersons(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
 
             //assert
             int expected = 2;
@@ -207,11 +217,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>())).Verifiable();
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>())).Verifiable();            
+
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, _formatGetters, _delimiters);
 
             //act
-            IList<Person> persons = _parserService.GetPersons(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
 
             var person = persons.FirstOrDefault();
 
@@ -232,15 +243,14 @@ namespace DBUnitTest
             List<FileFormatGetter> formatGetters = null;
 
             Dictionary<FormatEnum, char> delimiters = GetDelimiters();
-
-            var parserService = new ParserService(formatGetters, delimiters);
-
+            
             var mockStreamReader = new Mock<IStreamReader>();
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>()));
+            
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, formatGetters, delimiters);
 
             //act
             IList<Person> persons = parserService.GetPersons(fileName);       
@@ -257,15 +267,14 @@ namespace DBUnitTest
             List<FileFormatGetter> formatGetters = GetFormatGetters();
 
             Dictionary<FormatEnum, char> delimiters = null;
-
-            var parserService = new ParserService(formatGetters, delimiters);
-
+            
             var mockStreamReader = new Mock<IStreamReader>();
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>()));
+            
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, formatGetters, delimiters);
 
             //act
             IList<Person> persons = parserService.GetPersons(fileName);
@@ -282,11 +291,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>()));
+            
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, _formatGetters, _delimiters);
 
             //act
-            IList<Person> persons = _parserService.GetPersons(fileName);            
+            IList<Person> persons = parserService.GetPersons(fileName);            
         }
 
         [ExpectedException(typeof(Exception))]
@@ -300,11 +310,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;           
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>()));
+
+            var parserService = new ParserService(mockStreamReader.Object, _fileSystemWrapper, _formatGetters, _delimiters);
 
             //act
-            IList<Person> persons = _parserService.GetPersons(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
         }
 
         [ExpectedException(typeof(Exception))]
@@ -321,12 +332,12 @@ namespace DBUnitTest
             mockStreamReader.Setup(s => s.ReadLine())
                  .Returns(new Queue<string>(new[] { "Rout Theodora Female Teal 2/3/1976", null }).Dequeue);
 
-            mockStreamReader.Setup(s => s.InitializeReader(It.IsAny<String>()));
-            _parserService.StreamReaderWrapper = mockStreamReader.Object;
-            _parserService.FileSystemWrapper = mockFileSystem.Object;
+            mockStreamReader.Setup(s => s.CreateReader(It.IsAny<String>()));
+           
+            var parserService = new ParserService(mockStreamReader.Object, mockFileSystem.Object, _formatGetters, _delimiters);
 
             //act and assert
-            IList<Person> persons = _parserService.GetPersons(fileName);
+            IList<Person> persons = parserService.GetPersons(fileName);
             mockFileSystem.VerifyAll();
         }
     }

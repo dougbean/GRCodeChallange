@@ -8,47 +8,20 @@ namespace DBLibrary.Services
 {    
     public class ParserService : IParser
     {
-        private List<FileFormatGetter> _formatGetters;
-        private Dictionary<FormatEnum, char> _delimiters;
-        public ParserService(List<FileFormatGetter> formatGetters, Dictionary<FormatEnum, char> delimiters)
+        private readonly List<FileFormatGetter> _formatGetters;
+        private readonly Dictionary<FormatEnum, char> _delimiters;
+        private readonly IStreamReader _streamReaderWrapper;
+        private readonly IFileSystem _fileSystemWrapper;
+       
+        public ParserService(IStreamReader streamReaderWrapper, IFileSystem fileSystemWrapper, 
+            List<FileFormatGetter> formatGetters, Dictionary<FormatEnum, char> delimiters)
         {
+            _streamReaderWrapper = streamReaderWrapper;
+            _fileSystemWrapper = fileSystemWrapper;
             _formatGetters = formatGetters;
             _delimiters = delimiters;
         }
-
-        private IStreamReader _streamReader;
-        public IStreamReader StreamReaderWrapper {
-           get 
-            {
-                if(_streamReader == null)
-                {
-                    _streamReader = new StreamReaderWrapper();
-                }
-                return _streamReader;
-            }
-            set
-            {
-                _streamReader = value; 
-            }
-        }
-
-        private IFileSystem _fileSystem;
-        public IFileSystem FileSystemWrapper
-        {
-            get
-            {
-                if (_fileSystem == null)
-                {
-                    _fileSystem = new FileSystemWrapper();
-                }
-                return _fileSystem;
-            }
-            set
-            {
-                _fileSystem = value;
-            }
-        }
-
+      
         public FormatEnum GetFormat(string input)
         {            
             CheckFormatters();
@@ -113,9 +86,7 @@ namespace DBLibrary.Services
         {          
             CheckDelimiters();
 
-            return (from d in _delimiters
-                    where d.Key == fileFormat
-                    select d).FirstOrDefault();
+            return _delimiters.Where(x => x.Key == fileFormat).FirstOrDefault();                
         }
 
         private void CheckDelimiters()
@@ -129,18 +100,22 @@ namespace DBLibrary.Services
         private bool AreDelimitersMissing()
         {
             return (_delimiters == null || _delimiters.Count == 0);
-        }
+        }      
 
         private List<Person> GetPersons(string path, char delimiter)
         {
             var persons = new List<Person>();
-                       
-            using (StreamReaderWrapper)
-            {                
+
+            try
+            {
                 CheckForFile(path);
-                StreamReaderWrapper.InitializeReader(path);
+                _streamReaderWrapper.CreateReader(path);
                 ReadLines(delimiter, persons);
             }
+            finally
+            {
+                _streamReaderWrapper.DisposeReader();
+            }            
 
             return persons;
         }
@@ -155,13 +130,13 @@ namespace DBLibrary.Services
 
         private bool IsSpecifiedFileNotFound(string path)
         {
-            return (!FileSystemWrapper.FileExists(path));
+            return (!_fileSystemWrapper.FileExists(path));
         }
 
         private void ReadLines(char delimiter, List<Person> persons)
         {
             string line;
-            while ((line = StreamReaderWrapper.ReadLine()) != null)
+            while ((line = _streamReaderWrapper.ReadLine()) != null)
             {
                 string[] parsedRecord = line.Split(delimiter);                
                 CheckArraySize(parsedRecord);

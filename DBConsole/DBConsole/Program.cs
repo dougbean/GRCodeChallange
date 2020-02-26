@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DBLibrary.Model;
 using DBLibrary.Services;
+using DBLibrary.Wrappers;
 
 namespace DBConsole
 {
@@ -33,7 +34,9 @@ namespace DBConsole
         {
             List<FileFormatGetter> formatGetters = GetFormatGetters();
             Dictionary<FormatEnum, char> delimiters = GetDelimiters();
-            _parserService = new ParserService(formatGetters, delimiters);
+            IStreamReader streamReader = new StreamReaderWrapper();
+            IFileSystem fileSystemWrapper = new FileSystemWrapper();
+            _parserService = new ParserService(streamReader, fileSystemWrapper, formatGetters, delimiters);            
             _sortService = new SortService();
         }
 

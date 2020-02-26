@@ -97,8 +97,7 @@ namespace DBUnitTest
         {
             //arrange
             var controller = new RecordsController();
-            var record = new Record() { Delimiter = "pipe", Line = "Braams|Karrah|Female|Goldenrod|10/8/1968" };
-            string sortby = "name";
+            var record = new Record() { Delimiter = "pipe", Line = "Braams|Karrah|Female|Goldenrod|10/8/1968" };           
             controller._parserServiceWrapper.PersonCache = new List<Person>();
 
             //act             

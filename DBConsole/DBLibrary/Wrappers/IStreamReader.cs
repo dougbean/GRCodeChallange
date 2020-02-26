@@ -1,10 +1,10 @@
-﻿using System;
-
+﻿
 namespace DBLibrary.Wrappers
 {
-    public interface IStreamReader : IDisposable
+    public interface IStreamReader 
     {
+        void CreateReader(string path);
         string ReadLine();
-        void InitializeReader(string path);       
+        void DisposeReader();
     }
 }

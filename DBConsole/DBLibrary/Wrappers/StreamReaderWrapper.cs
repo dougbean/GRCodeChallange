@@ -1,13 +1,12 @@
 ﻿using System.IO;
-using System;
 
 namespace DBLibrary.Wrappers
 {
-    public class StreamReaderWrapper : IStreamReader, IDisposable 
+    public class StreamReaderWrapper : IStreamReader
     {   
         private StreamReader _streamReader;
         
-        public void InitializeReader(string path) 
+        public void CreateReader(string path) 
         {
             _streamReader = new StreamReader(path);
         }
@@ -17,9 +16,10 @@ namespace DBLibrary.Wrappers
             return  _streamReader.ReadLine();
         }
 
-        public void Dispose()
+        public void DisposeReader()
         {
             _streamReader.Dispose();
+            _streamReader = null;
         }
     }
 }
